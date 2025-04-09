@@ -1,5 +1,5 @@
-<div class="flex flex-col" :class="stickyHeader ? 'sticky top-0 z-10' : ''">
-    <header class="flex justify-between items-center h-16 py-4 px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+<div class="flex flex-col shadow-lg" :class="stickyHeader ? 'sticky top-0 z-10' : ''">
+    <header class="flex justify-between items-center h-16 py-4 px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 ">
         <!-- start::Mobile menu button -->
         <div class="flex items-center">
             <button @click.prevent="sidebarOpen = true" class="text-gray-500 hover:text-primary focus:outline-none lg:hidden transition duration-200">
@@ -176,7 +176,7 @@
                 @endslot
             
                 <x-dropdown-item label="Profile" link="#" icon="user" />
-                <x-dropdown-item label="Update password" icon="key" />
+                <x-dropdown-item label="Update password" icon="key" badge="5"/>
                 <x-separator />
                 <x-dropdown-item label="Settings" link="#" icon="arrow-right-end-on-rectangle" />
             </x-dropdown>

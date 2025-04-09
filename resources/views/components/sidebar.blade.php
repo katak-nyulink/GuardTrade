@@ -30,8 +30,8 @@
         <p class="text-xs text-gray-600 mt-10 mb-2 px-6 uppercase">Apps</p>
 
         <!-- start::Menu link -->
-        <x-sidebar.dropdown title="Email" icon="envelope" linkActive="true">
-            <x-sidebar.item label="Inbox" link="./email/inbox.html" />
+        <x-sidebar.dropdown title="Email" icon="envelope" :routes="['dashboard', 'dashboard.analytics']">
+            <x-sidebar.item label="Inbox" :link="route('dashboard')" badge="50" badgeEnd/>
             <x-sidebar.item label="View Message" link="./email/viewMessage.html" />
             <x-sidebar.item label="Compose" link="./email/newMessage.html" />
         </x-sidebar.dropdown>
