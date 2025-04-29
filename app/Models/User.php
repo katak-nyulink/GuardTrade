@@ -69,4 +69,35 @@ class User extends Authenticatable
     {
         return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?d=identicon';
     }
+
+    // Relationships for POS
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function saleReturns()
+    {
+        return $this->hasMany(SaleReturn::class);
+    }
+
+    public function purchaseReturns()
+    {
+        return $this->hasMany(PurchaseReturn::class);
+    }
+
+    public function journalEntries()
+    {
+        return $this->hasMany(JournalEntry::class);
+    }
+
+    public function stockTransfersInitiated()
+    {
+        return $this->hasMany(StockTransfer::class, 'user_id');
+    }
 }

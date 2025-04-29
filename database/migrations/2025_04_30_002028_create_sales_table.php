@@ -1,0 +1,53 @@
+<?php
+
+use App\Enums\PaymentStatusEnum;
+use App\Enums\SaleStatusEnum;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('sales', function (Blueprint $table) {
+            $table->id();
+            $table->date('date');
+            $table->string('reference_no')->unique();
+            $table->foreignId('customer_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('warehouse_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // User who made the sale
+
+            $table->decimal('total_amount', 15, 2); // Grand Total
+            $table->decimal('tax_rate', 5, 2)->nullable(); // Overall tax rate %
+            $table->decimal('tax_amount', 15, 2)->default(0);
+            $table->enum('discount_type', ['fixed', 'percentage'])->nullable();
+            $table->decimal('discount_amount', 15, 2)->default(0);
+            $table->decimal('shipping_cost', 15, 2)->default(0);
+
+            $table->decimal('paid_amount', 15, 2)->default(0);
+            $table->decimal('due_amount', 15, 2)->default(0); // total - paid
+            $table->string('payment_method')->nullable();
+            $table->enum('payment_status', array_column(PaymentStatusEnum::cases(), 'value'))->default(PaymentStatusEnum::PENDING->value);
+            $table->enum('sale_status', array_column(SaleStatusEnum::cases(), 'value'))->default(SaleStatusEnum::PENDING->value);
+
+            $table->text('notes')->nullable();
+            $table->string('document_path')->nullable(); // Path to invoice PDF etc.
+
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('sales');
+    }
+};

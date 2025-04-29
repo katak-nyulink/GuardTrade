@@ -22,10 +22,11 @@ class ModelsMakeCommand extends Command
                             {--f|factory : Create a new factory for each model}
                             {--s|seeder : Create a new seeder for each model}
                             {--c|controller : Create a new controller for each model}
-                            {--p|policy : Create a new policy for each model}
-                            {--t|pivot : Indicates if the generated model should be a custom intermediate table model}
+                            {--policy : Create a new policy for each model}
+                            {--p|pivot : Indicates if the generated model should be a custom intermediate table model}
                             {--d|softdelete : Add SoftDeletes trait and migration column}
-                            {--all : Generate a migration, factory, seeder, and resource controller for each model}';
+                            {--all : Generate a migration, factory, seeder, and resource controller for each model}
+                            {--force: Overwrite any existing file}';
 
     /**
      * The console command description.
@@ -71,19 +72,21 @@ class ModelsMakeCommand extends Command
             if ($this->option('seeder')) {
                 $command .= ' -s';
             }
+
             if ($this->option('controller')) {
                 $command .= ' -c';
             }
 
             if ($this->option('policy')) {
-                $command .= ' -p';
+                $command .= null;
             }
 
             if ($this->option('pivot')) {
-                $command .= ' -t';
+                $command .= ' -p';
             }
 
             Artisan::call($command, [], $this->getOutput());
+            sleep(1);
 
             // Add SoftDelete functionality if requested
             if ($this->option('softdelete')) {
@@ -127,11 +130,14 @@ class ModelsMakeCommand extends Command
 
             // Add trait if not already present
             if (strpos($content, 'use SoftDeletes;') === false) {
-                $content = str_replace(
-                    'use HasFactory;',
-                    "use HasFactory;\n    use SoftDeletes;",
-                    $content
-                );
+                // Find the class declaration
+                if (preg_match('/class\s+' . $modelName . '\s+extends\s+Model\s*{/', $content, $matches, PREG_OFFSET_CAPTURE)) {
+                    $classStart = $matches[0][1];
+                    $contentBefore = substr($content, 0, $classStart + strlen($matches[0][0]));
+                    $contentAfter = substr($content, $classStart + strlen($matches[0][0]));
+
+                    $content = $contentBefore . "\n    use SoftDeletes;\n" . $contentAfter;
+                }
             }
 
             File::put($modelPath, $content);
