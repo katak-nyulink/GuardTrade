@@ -10,12 +10,25 @@
 @source "../**/*.js";
 @source "../**/*.vue";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --font-sans: 'Lato', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --color-primary: #1f4b8e;
+    --color-primary: var(--color-blue-500, #1f4b8e);
     --color-secondary: #182430;
+}
+
+@layer theme {
+    .dark {
+        --color-primary: var(--color-blue-700, #1c3f72);
+        --color-secondary: #0d1822;
+    }
+}
+
+:root.dark {
+    color-scheme: dark;
 }
 
 [x-cloak] {
@@ -23,8 +36,23 @@
 }
 
 @layer base {
+
+    *,
+    ::before,
+    ::after,
+    ::backdrop,
+    ::file-selector-button {
+        @apply border-[#e5e7eb] dark:border-[#374151];
+    }
+
+    *,
+    ::before,
+    ::after {
+        scrollbar-width: thin;
+    }
+
     body {
-        @apply antialiased min-h-screen font-sans leading-6 text-slate-900 dark:text-slate-100 bg-slate-100 dark:bg-slate-900;
+        @apply antialiased min-h-screen font-sans leading-6 text-gray-900 dark:text-gray-100 bg-slate-50/90 dark:bg-slate-950;
     }
 
     body.auth {
@@ -32,20 +60,94 @@
     }
 }
 
-@layer utilities {
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px
+@layer components {
+    .sidebar {
+        @apply fixed z-30 inset-y-0 min-h-dvh left-0 flex flex-col transition-all duration-300 bg-gray-900 not-[collapsed]:translate-x-0 not-[collapsed]:lg:translate-x-0 not-[collapsed]:w-64 not-[collapsed]:lg:w-64;
+
+        &.collapsed {
+            @apply -translate-x-full lg:translate-x-0 lg:w-16;
+        }
+
+        /* &:not(.collapsed) {
+            @apply translate-x-0 lg:translate-x-0 w-64 lg:w-64;
+        } */
+
+
     }
 
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: theme('colors.secondary')
+    .sidebar-navlink {
+        @apply flex items-center gap-2 w-full px-3 py-3 cursor-pointer transition duration-200 text-sm leading-none not-[as-popup]:rounded-lg not-[as-popup]:text-slate-400 not-[as-popup]:dark:text-slate-400 not-[active]:hover:text-white not-[active]:hover:bg-white/5;
+
+        &.as-popup {
+            @apply text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white rounded-none;
+        }
+
+        &.active {
+            @apply text-white bg-white/5;
+        }
     }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #888
+    .sidebar .sidebar-header {
+        @apply flex-none flex items-center px-6 py-3 h-16 text-white;
     }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #555
+    .sidebar-tooltip {
+        @apply absolute left-24 hidden whitespace-nowrap rounded bg-gray-950 px-2 py-1 text-sm text-white;
+        @apply group-hover:block;
+
+        &:before {
+            content: '';
+            @apply absolute -left-1 top-2.5 size-2.5 bg-inherit transform rotate-45;
+        }
     }
+
+    .table {
+        @apply table-auto w-full text-left text-sm divide-y text-gray-500 dark:text-gray-400;
+
+        &>thead {
+            @apply bg-gray-50 dark:bg-gray-800 divide-y;
+
+            & th {
+                @apply px-4 py-3 w-[var(--col-width)] text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider;
+            }
+        }
+
+        & tbody {
+            @apply bg-white dark:bg-gray-900 divide-y;
+
+            & td {
+                @apply px-4 py-3 w-[var(--col-width)] whitespace-nowrap text-sm text-gray-900 dark:text-gray-100;
+            }
+
+            & td:first-child {
+                @apply font-medium text-gray-900 dark:text-gray-100;
+            }
+
+            & td:last-child {
+                @apply text-right;
+            }
+        }
+
+        &.table-hover tbody tr {
+            @apply hover:bg-gray-50 dark:hover:bg-gray-800;
+        }
+
+        &.table-striped {
+            /* @apply border-separate border-spacing-0; */
+
+
+            & tbody tr:nth-child(odd) {
+                @apply bg-gray-100 dark:bg-gray-700;
+            }
+
+            & tbody tr:nth-child(even) {
+                @apply bg-white dark:bg-gray-800;
+            }
+        }
+    }
+
+    .table-active {
+        @apply bg-gray-50 dark:bg-gray-800;
+    }
+
 }

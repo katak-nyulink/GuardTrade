@@ -16,11 +16,29 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+
+    'inputs' => [
+        'name' => [
+            'label' => 'Name',
+            'placeholder' => 'Full Name',
+        ],
+        'email' => [
+            'label' => 'Email',
+            'placeholder' => 'email@example.com',
+        ],
+        'password' => [
+            'label' => 'Password',
+            'placeholder' => 'Password',
+        ],
+        'password_confirmation' => [
+            'label' => 'Confirm password',
+            'placeholder' => 'Confirm password',
+        ],
+    ],
+
     'login' => [
         'title' => 'Login',
         'description' => 'Please login to continue.',
-        'email' => 'Email',
-        'password' => 'Password',
         'hint' => 'Password must be at least :min characters long.',
         'remember_me' => 'Remember Me',
         'forgot_password' => 'Forgot Your Password?',
@@ -35,10 +53,6 @@ return [
     'register' => [
         'title' => 'Register',
         'description' => 'Please register to create a new account.',
-        'name' => 'Name',
-        'email' => 'Email',
-        'password' => 'Password',
-        'confirm_password' => 'Confirm Password',
         'register_button' => 'Register',
         'already_have_account' => 'Already have an account?',
         'login_here' => 'Login here',
@@ -73,6 +87,15 @@ return [
         'email' => 'Email Address',
         'send_link' => 'Send Password Reset Link',
         'reset_password' => 'Reset Password',
+    ],
+    'forgot_password' => [
+        'title' => 'Forgot password',
+        'description' => 'Enter your email to receive a password reset link',
+        'email' => 'Email Address',
+        'send_reset_link' => 'Email password reset link',
+        'fallback' => 'Or, return to ',
+        'login_link' => 'Login',
+        'status' => 'A reset link will be sent if the account exists.'
     ],
     'two_factor' => [
         'title' => 'Two-Factor Authentication',

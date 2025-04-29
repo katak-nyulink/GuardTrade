@@ -1,0 +1,65 @@
+<x-sidebar.backdrop/>
+<aside x-bind="sidebar"
+    class="sidebar sidebar-mini border-r border-slate-200 dark:border-slate-700 will-change-[transform,width]"
+>
+    <!-- Logo Area -->
+    <div class="flex-none flex items-center px-6 py-3 h-16 text-white border-b border-slate-700 justify-between">
+        <a href="/" class="flex items-center truncate">
+            <x-app-logo classLogo="size-8" classText="text-lg tracking-wider dark:text-white"/>
+        </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        
+    </nav>
+{{-- 
+    <nav class="py-10 custom-scrollbar overflow-y-auto text-sm">
+        @foreach(config('menu.sidebar') as $item)
+            @if(isset($item['type']) && $item['type'] === 'header')
+                <p class="text-xs text-gray-600 mt-10 mb-2 px-6 uppercase">{{ $item['title'] }}</p>
+            @elseif(isset($item['submenu']))
+                <x-sidebar.dropdown 
+                    :title="$item['title']"
+                    :icon="str_replace('heroicon-o-', '', $item['icon'])"
+                    :routes="array_filter($item['routes'] ?? [], fn($route) => Route::has($route))"
+                >
+                    @foreach($item['submenu'] as $subitem)
+                        <x-sidebar.item 
+                            :header="isset($subitem['type']) && $subitem['type'] === 'header'"
+                            :label="$subitem['title']"
+                            :link="isset($subitem['route']) && Route::has($subitem['route']) ? route($subitem['route']) : null"
+                            :badge="$subitem['badge'] ?? null"
+                            :badgeEnd="$subitem['badge_end'] ?? false"
+                        />
+                    @endforeach
+                </x-sidebar.dropdown>
+            @else
+                @php
+                    $isActive = isset($item['route']) && Route::has($item['route']) && request()->url() === route($item['route']);
+                @endphp
+                    <a 
+                        x-data="{ linkHover: false }"
+                        @mouseover="linkHover = true"
+                        @mouseleave="linkHover = false"
+                        href="{{ isset($item['route']) && Route::has($item['route']) ? route($item['route']) : '#' }}"
+                        class="flex items-center px-6 py-3 cursor-pointer transition duration-200 {{ $isActive ? 'bg-black/50 text-gray-100' : 'hover:bg-black/50 hover:text-gray-400' }}"
+                    >
+                        <x-dynamic-component 
+                            :component="$item['icon']"
+                            ::class="linkHover ? 'text-gray-100' : ''"
+                            class="w-5 h-5 flex-none transition duration-200"
+                        />
+                        <span 
+                            class="ml-3 transition duration-200 truncate" 
+                            :class="linkHover ? 'text-gray-100' : ''"
+                        >
+                            {{ $item['title'] }}
+                        </span>
+                    </a>
+            @endif
+        @endforeach
+    </nav>
+     --}}
+    <!-- End Navigation -->
+</aside>

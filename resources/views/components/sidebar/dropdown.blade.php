@@ -7,7 +7,7 @@
     'badge' => null,
     'badgeEnd' => false,
 ])
-
+ 
 @php
     $currentRoute = request()->route()->getName();
     $linkActive = in_array($currentRoute, (array)$routes);
@@ -27,8 +27,8 @@
                 $icon = str_replace(' ', '-', $icon);
             @endphp
             {{-- <x-heroicon-o-{{ $icon }} class="w-5 h-5 transition duration-200" ::class=" linkHover || linkActive ? 'text-gray-100' : ''"/> --}}
-            <x-dynamic-component :component="$icon" class="w-5 h-5 transition duration-200" ::class=" linkHover || linkActive ? 'text-gray-100' : ''"/>
-            <span class="ml-3">{{ $title }}</span>
+            <x-dynamic-component :component="$icon" class="w-5 h-5 flex-none transition duration-200" ::class=" linkHover || linkActive ? 'text-gray-100' : ''"/>
+            <span class="ml-3 truncate">{{ $title }}</span>
             @if($badge)
                 <div @class(['flex justify-end flex-1' => $badgeEnd])>
                     <x-badge :label="$badge" blue outline {{ $attributes->twMergeFor('badge', 'rounded-full') }} />

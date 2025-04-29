@@ -16,11 +16,29 @@ return [
     'password' => 'Password yang diberikan salah.',
     'throttle' => 'Terlalu banyak percobaan masuk. Silakan coba lagi dalam :seconds detik.',
 
+    'inputs' => [
+        'name' => [
+            'label' => 'Nama',
+            'placeholder' => 'Nama Lengkap',
+        ],
+        'email' => [
+            'label' => 'Email',
+            'placeholder' => 'email@example.com',
+        ],
+        'password' => [
+            'label' => 'Kata Sandi',
+            'placeholder' => 'Kata Sandi',
+        ],
+        'password_confirmation' => [
+            'label' => 'Konfirmasi Kata sandi',
+            'placeholder' => 'Konfirmasi Kata sandi',
+        ],
+    ],
+
+
     'login' => [
         'title' => 'Masuk',
         'description' => 'Silakan masuk untuk melanjutkan.',
-        'email' => 'Email',
-        'password' => 'Kata Sandi',
         'hint' => 'Kata sandi harus terdiri dari minimal :min karakter.',
         'remember_me' => 'Ingat Saya',
         'forgot_password' => 'Lupa Kata Sandi?',
@@ -35,11 +53,7 @@ return [
     'register' => [
         'title' => 'Daftar',
         'description' => 'Silakan daftar untuk membuat akun baru.',
-        'name' => 'Nama',
-        'email' => 'Email',
-        'password' => 'Kata Sandi',
-        'confirm_password' => 'Konfirmasi Kata Sandi',
-        'register_button' => 'Daftar',
+        'register_button' => 'Buat Akun',
         'already_have_account' => 'Sudah punya akun?',
         'login_here' => 'Masuk di sini',
         'registration_success' => 'Pendaftaran berhasil. Silakan periksa email Anda untuk memverifikasi akun Anda.',
@@ -49,6 +63,15 @@ return [
         'title' => 'Atur Ulang Kata Sandi',
         'email' => 'Alamat Email',
         'send_reset_link' => 'Kirim Tautan Atur Ulang Kata Sandi',
+    ],
+    'forgot_password' => [
+        'title' => 'Lupa Kata Sandi',
+        'description' => 'Masukkan email Anda untuk menerima tautan atur ulang kata sandi',
+        'email' => 'Alamat Email',
+        'send_reset_link' => 'Kirim tautan atur ulang kata sandi',
+        'fallback' => 'Atau, kembali ke ',
+        'login_link' => 'Masuk',
+        'status' => 'Tautan atur ulang akan dikirim jika akun tersebut ada.'
     ],
     'verify_email' => [
         'title' => 'Verifikasi Alamat Email Anda',

@@ -11,6 +11,34 @@
     {{-- <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" /> --}}
 
+    <script>
+        function applyAppearance (appearance) {
+            let applyDark = () => document.documentElement.classList.add('dark')
+            let applyLight = () => document.documentElement.classList.remove('dark')
+
+            if (appearance === 'system') {
+                let media = window.matchMedia('(prefers-color-scheme: dark)')
+                window.localStorage.removeItem('appearance')
+                media.matches ? applyDark() : applyLight()
+            } else if (appearance === 'dark') {
+                window.localStorage.setItem('appearance', 'dark')
+                applyDark()
+            } else if (appearance === 'light') {
+                window.localStorage.setItem('appearance', 'light')
+                applyLight()
+            }
+        }
+
+        // Apply initial appearance
+        applyAppearance(window.localStorage.getItem('appearance') || 'system')
+        
+        // Re-apply appearance after Livewire navigation
+        document.addEventListener('livewire:navigated', () => {
+            applyAppearance(window.localStorage.getItem('appearance') || 'system')
+        })
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @stack('other-styles')
 </head>

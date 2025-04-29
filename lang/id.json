@@ -1,0 +1,84 @@
+{
+    "welcome": "Selamat datang di situs kami!",
+    "home": "Beranda",
+    "No permission assigned": "Tidak ada izin yang ditetapkan",
+    "No permission assigned to this role": "Tidak ada izin yang ditetapkan untuk peran ini",
+    "New role": "Peran baru",
+    "New": "Baru",
+    "Actions": "Tindakan",
+    "Roles": "Peran",
+    "Edit": "Sunting",
+    "Delete": "Hapus",
+    "Save": "Simpan",
+    "Cancel": "Batalkan",
+    "Update": "Perbarui",
+    "Search": "Cari",
+    "Title": "Judul",
+    "description": "Deskripsi",
+    "author": "Penulis",
+    "date": "Tanggal",
+    "tags": "Tag",
+    "category": "Kategori",
+    "read_more": "Baca lebih lanjut",
+    "back_to_top": "Kembali ke atas",
+    "search": "Cari",
+    "search_placeholder": "Cari di sini...",
+    "no_results_found": "Tidak ada hasil ditemukan.",
+    "No records found": "Tidak ada catatan ditemukan.",
+    "loading": "Memuat...",
+    "error_loading": "Terjadi kesalahan saat memuat data.",
+    "comments": {
+        "leave_a_comment": "Tinggalkan komentar",
+        "name": "Nama",
+        "email": "Email",
+        "message": "Pesan",
+        "submit": "Kirim"
+    },
+    "footer": {
+        "about": "Tentang",
+        "contact": "Kontak",
+        "privacy_policy": "Kebijakan Privasi",
+        "terms_of_service": "Syarat dan Ketentuan"
+    },
+    "pagination": {
+        "previous": "Sebelumnya",
+        "next": "Selanjutnya",
+        "page": "Halaman"
+    },
+    "sidebar": {
+        "recent_posts": "Posting Terbaru",
+        "categories": "Kategori",
+        "tags": "Tag",
+        "archives": "Arsip",
+        "subscribe": "Berlangganan"
+    },
+    "subscribe": {
+        "email_placeholder": "Masukkan email Anda",
+        "subscribe_button": "Berlangganan",
+        "thank_you": "Terima kasih telah berlangganan!"
+    },
+    "error": {
+        "not_found": "Halaman tidak ditemukan.",
+        "server_error": "Terjadi kesalahan server.",
+        "forbidden": "Akses ditolak."
+    },
+    "success": {
+        "comment_submitted": "Komentar Anda telah dikirim.",
+        "subscription_successful": "Berlangganan berhasil!"
+    },
+    "warning": {
+        "comment_too_short": "Komentar terlalu pendek.",
+        "email_invalid": "Email tidak valid.",
+        "name_required": "Nama diperlukan.",
+        "message_required": "Pesan diperlukan."
+    },
+    "info": {
+        "loading_comments": "Memuat komentar...",
+        "no_comments": "Belum ada komentar.",
+        "leave_a_reply": "Tinggalkan balasan"
+    },
+    "success_message": {
+        "comment_posted": "Komentar berhasil diposting.",
+        "subscription_confirmed": "Langganan Anda telah dikonfirmasi."
+    }
+}

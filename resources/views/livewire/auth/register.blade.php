@@ -26,6 +26,7 @@ class extends Component {
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'password_confirmation'=>['required', 'string']
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -50,54 +51,54 @@ class extends Component {
             <!-- Name -->
             <x-input
                 wire:model="name"
-                :label="__('Name')"
+                :label="__('auth.inputs.name.label')"
                 type="text"
-                required
+                
                 autofocus
                 autocomplete="name"
-                :placeholder="__('Full name')"
+                :placeholder="__('auth.inputs.name.placeholder')"
             />
 
             <!-- Email Address -->
             <x-input
                 wire:model="email"
-                :label="__('Email address')"
+                :label="__('auth.inputs.email.label')"
                 type="email"
-                required
+                
                 autocomplete="email"
-                placeholder="email@example.com"
+                :placeholder="__('auth.inputs.email.placeholder')"
             />
 
             <!-- Password -->
             <x-input
                 wire:model="password"
-                :label="__('Password')"
+                :label="__('auth.inputs.password.label')"
                 type="password"
-                required
+                
                 autocomplete="new-password"
-                :placeholder="__('Password')"
+                :placeholder="__('auth.inputs.password.placeholder')"
             />
 
             <!-- Confirm Password -->
             <x-input
                 wire:model="password_confirmation"
-                :label="__('Confirm password')"
+                :label="__('auth.inputs.password_confirmation.label')"
                 type="password"
-                required
+                
                 autocomplete="new-password"
-                :placeholder="__('Confirm password')"
+                :placeholder="__('auth.inputs.password_confirmation.placeholder')"
             />
 
             <div class="flex items-center justify-end">
-                <x-button type="submit" class="w-full">
-                    {{ __('Create account') }}
+                <x-button type="submit" class="w-full cursor-pointer" spinner="register">
+                    {{ __('auth.register.register_button') }}
                 </x-button>
             </div>
         </form>
 
         <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-            {{ __('Already have an account?') }}
-            <a class="text-primary/90 hover:text-primary" href="{{ route('login') }}" wire:navigate>{{ __('Log in') }}</a>
+            {{ __('auth.register.already_have_account') }}
+            <a class="text-primary/90 hover:text-primary" href="{{ route('login') }}" wire:navigate>{{ __('auth.register.login_here') }}</a>
         </div>
     </x-card-content>
 </div>

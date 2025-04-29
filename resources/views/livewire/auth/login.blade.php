@@ -92,13 +92,13 @@ class extends Component {
 
         <form wire:submit="login" class="flex flex-col gap-6">
             <!-- Email Address -->
-            <x-input wire:model="email" label="email" class="py-2.5" placeholder="email@example.com" autocomplete="email" autofocus/>
+            <x-input wire:model="email" :label="__('auth.inputs.email.label')" class="py-2.5" :placeholder="__('auth.inputs.email.placeholder')" autocomplete="email" autofocus/>
 
 
             <!-- Password -->
             
             <div class="relative">
-                <x-password wire:model="password" label="password" placeholder="{{ __('auth.login.password') }}" autocomplete="password"/>
+                <x-password wire:model="password" :label="__('auth.inputs.password.label')" :placeholder="__('auth.inputs.password.placeholder')" autocomplete="password"/>
 
                 @if (Route::has('password.request'))
                 <a class="absolute right-0 top-0 text-sm text-primary/90 hover:text-primary" href="{{ route('password.request') }}" wire:navigate>
@@ -111,33 +111,33 @@ class extends Component {
             <div class="flex items-center justify-between gap-2">
                 {{-- <x-checkbox wire:model="remember" label="{{ __('auth.login.remember_me') }}" /> --}}
                 <x-checkbox wire:model="remember" label="{{ __('auth.login.remember_me') }}" />
-                @if (Route::has('register'))
-                    <div>
+                {{-- @if (Route::has('register'))
+                    <div class="text-sm">
                         <span>{{ __('auth.login.no_account') }}</span>
-                        <a class="text-primary/90 hover:text-primary" href="{{ route('register') }}" wire:navigate>{{ __('auth.login.register_here') }}</a>
+                        <a class=" text-primary/90 hover:text-primary" href="{{ route('register') }}" wire:navigate>{{ __('auth.login.register_here') }}</a>
                     </div>
-                @endif
+                @endif --}}
             </div>
 
             <div class="flex items-center justify-end">
-                <x-button label="{{ __('auth.login.login_button') }}" type="submit"  class="w-full" spinner="login"/>
+                <x-button label="{{ __('auth.login.login_button') }}" type="submit"  class="w-full tracking-normal" spinner="login"/>
             </div>
         </form>
 
-        {{-- @if (Route::has('register'))
+        @if (Route::has('register'))
         <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
             {{ __('auth.login.no_account') }}
             <a class="text-primary/90 hover:text-primary" href="{{ route('register') }}" wire:navigate>{{ __('auth.login.register_here') }}</a>
         </div>
-        @endif --}}
+        @endif
 
-        <div class="flex items-center justify-between">
+        {{-- <div class="flex items-center justify-between">
             <div class="w-full h-[1px] bg-slate-300 dark:bg-slate-700"></div>
             <span class="text-sm uppercase mx-6 text-slate-400 dark:text-slate-500">Or</span>
             <div class="w-full h-[1px] bg-slate-300 dark:bg-slate-700"></div>
-        </div>
+        </div> --}}
 
-        <div class="text-sm">
+        {{-- <div class="text-sm">
             <a href="#" class="flex items-center justify-center space-x-2 text-gray-600 my-2 py-2 bg-gray-100 hover:bg-gray-200 rounded">
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 326667 333333" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd">
                     <path d="M326667 170370c0-13704-1112-23704-3518-34074H166667v61851h91851c-1851 15371-11851 38519-34074 54074l-311 2071 49476 38329 3428 342c31481-29074 49630-71852 49630-122593m0 0z" fill="#4285f4"></path>
@@ -178,6 +178,6 @@ class extends Component {
                 </svg>
                 <span>Continue with LinkedIn</span>
             </a>
-        </div>
+        </div> --}}
     </x-card-content>
 </div>

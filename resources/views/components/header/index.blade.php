@@ -1,18 +1,21 @@
 <div class="flex flex-col shadow-lg" :class="stickyHeader ? 'sticky top-0 z-10' : ''">
-    <header class="flex justify-between items-center h-16 py-4 px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 ">
+    <header
+        class="flex justify-between items-center h-16 py-4 px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 ">
         <!-- start::Mobile menu button -->
         <div class="flex items-center">
-            <button @click.prevent="sidebarOpen = true" class="text-gray-500 hover:text-primary focus:outline-none lg:hidden transition duration-200">
+            {{-- <button x-bind="sidebarToggle" class="text-gray-500 hover:text-primary focus:outline-none transition duration-200">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
-            </button>
+            </button> --}}
+
+            <x-button icon="bars-3" xl gray outline x-bind="sidebarToggle" class="px-2 py-1.5 cursor-pointer" />
         </div>
         <!-- end::Mobile menu button -->
 
         <!-- start::Right side top menu -->
-        <div class="flex items-center">
+        <div class="flex items-center gap-3">
             <!-- start::Search input -->
             <form class="relative">
-                <x-input placeholder="Search..." icon-right="magnifying-glass"/>
+                <x-input placeholder="Search..." icon-right="magnifying-glass" />
                 {{-- <button class="absolute right-2 top-2.5">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </button> --}}
@@ -20,11 +23,10 @@
             <!-- end::Search input -->
 
             <!-- start::Notifications -->
-            <div x-data="{ linkActive: false }" class="relative mx-6">
+            {{-- <div x-data="{ linkActive: false }" class="relative">
                 <!-- start::Main link -->
                 <div @click="linkActive = !linkActive" class="cursor-pointer flex">
                     <x-heroicon-o-bell class="size-6"/>
-                    {{-- <svg class="w-6 h-6 cursor-pointer hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg> --}}
                     <sub>
                         <span class="bg-red-600 text-gray-100 px-1.5 py-0.5 rounded-full -ml-1 animate-pulse">
                             4
@@ -50,7 +52,6 @@
                         <a x-data="{ linkHover: false }" href="#" class="flex items-center justify-between py-4 px-3 hover:bg-gray-100 bg-opacity-20" @mouseover="linkHover = true" @mouseleave="linkHover = false">
                             <div class="flex items-center">
                                 <x-heroicon-o-shopping-cart class="w-8 h-8 bg-primary/20 text-primary px-1.5 py-0.5 rounded-full" />
-                                {{-- <svg class="w-8 h-8 bg-primary bg-opacity-20 text-primary px-1.5 py-0.5 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg> --}}
                                 <div class="text-sm ml-3">
                                     <p class="text-gray-600 font-bold capitalize" :class=" linkHover ? 'text-primary' : ''">Order Completed</p>
                                     <p class="text-xs">Your order is completed</p>
@@ -163,22 +164,117 @@
                     <!-- end::Submenu content -->
                 </div>
                 <!-- end::Submenu -->
-            </div>
+            </div> --}}
 
+            <x-dropdown w-96 class="divide-y max-h-96 overflow-y-auto custom-scrollbar">
+                @slot('trigger')
+                    <x-button flat gray circle sm class="cursor-pointer p-0.5">
+                        <x-icon name="bell" class="size-5" />
+                        {{-- <sub> --}}
+                        <span
+                            class="absolute -top-1 -right-2 bg-red-600 text-gray-100 px-1.5 py-0.5 rounded-full animate-pulse">
+                            4
+                        </span>
+                        {{-- </sub> --}}
+                    </x-button>
+                @endslot
+                {{-- 
+                <li class="flex items-center px-4 py-2 text-xs font-medium text-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400 uppercase gap-x-2">
+                    <span>{{ __('Notifications') }}</span>
+                </li>
+                <li>
+                    <a href="#" class="inline-flex items-center w-full px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 gap-x-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white group transition ease-in-out cursor-pointer">
+                        <div class="flex items-center">
+                        <x-icon name="shopping-cart" class="size-8 bg-primary/20 text-primary px-1.5 py-0.5 rounded-full"/>
+                        <div class="text-sm ml-3">
+                            <p class="font-bold capitalize group-hover:text-primary dark:group-hover:text-blue-500">Order Completed</p>
+                            <p class="text-gray-600 dark:text-gray-500 text-xs">Your order is completed</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold">
+                        5 min ago
+                    </span>
+                    </a>
+                </li> --}}
 
+                <li
+                    class="flex items-center justify-between px-4 py-3 text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 uppercase gap-x-2 select-none">
+                    <span>{{ __('Notifications') }}</span>
+                    <a href="#" class="hover:text-gray-500 dark:hover:text-gray-400"> {{ __('View all') }}</a>
+                </li>
+
+                <x-dropdown-item class="justify-between">
+                    <div class="flex items-center">
+                        <x-icon name="shopping-cart"
+                            class="size-8 bg-primary/20 text-primary px-1.5 py-0.5 rounded-full" />
+                        <div class="text-sm ml-3">
+                            <p class="font-bold capitalize group-hover:text-primary dark:group-hover:text-blue-500">
+                                Order Completed</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-xs">Your order is completed</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold">
+                        5 min ago
+                    </span>
+                </x-dropdown-item>
+
+                <x-dropdown-item class="justify-between">
+                    <div class="flex items-center">
+                        <x-avatar image="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" rounded-full
+                            sm />
+                        <div class="text-sm ml-3">
+                            <p class="font-bold capitalize group-hover:text-primary dark:group-hover:text-blue-500">
+                                Maria sent you a message</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-xs">Hey there, how are you do...</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold">
+                        30 min ago
+                    </span>
+                </x-dropdown-item>
+
+            </x-dropdown>
+
+            <x-dropdown label="Select theme">
+                @slot('trigger')
+                    <x-button flat gray circle sm class="cursor-pointer p-0.5">
+                        <x-heroicon-o-sun class="block size-5 dark:hidden" />
+                        <x-heroicon-o-moon class="hidden size-5 dark:block" />
+                    </x-button>
+                @endslot
+                <x-dropdown-item label="Light" icon="sun" x-on:click="lightMode()" ::aria-selected="theme === 'light'"
+                    ::class="{ 'text-sky-400 hover:text-sky-500 *:text-sky-400 *:group-hover:text-sky-500': theme === 'light' }" />
+                <x-dropdown-item label="Dark" icon="moon" x-on:click="darkMode()" ::aria-selected="theme === 'dark'"
+                    ::class="{ 'text-sky-400 hover:text-sky-500 *:text-sky-400 *:group-hover:text-sky-500': theme === 'dark' }" />
+                <x-dropdown-item label="System" icon="computer-desktop" x-on:click="systemMode()" ::aria-selected="theme !== 'light' && theme !== 'dark'"
+                    ::class="{ 'text-sky-400 hover:text-sky-500 *:text-sky-400 *:group-hover:text-sky-500': theme === 'system' }" />
+            </x-dropdown>
             <!-- end::Notifications -->
 
             <!-- start::Profile -->
-            <x-dropdown  title="Account settings">
+            <x-dropdown title="Account settings">
                 @slot('trigger')
                     {{-- <x-button icon="bell" flat circle /> --}}
-                    <x-avatar image="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" rounded-full class="cursor-pointer"/>
+                    <x-button flat circle sm class="cursor-pointer p-0">
+                        <x-avatar image="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" rounded-full sm />
+                    </x-button>
                 @endslot
-            
-                <x-dropdown-item label="Profile" link="#" icon="user" />
-                <x-dropdown-item label="Update password" icon="key" badge="5"/>
+
+                <x-dropdown-item :label="__('Profile')" link="#" icon="user" />
+                <x-dropdown-item :label="__('Update password')" icon="key" />
                 <x-separator />
-                <x-dropdown-item label="Settings" link="#" icon="arrow-right-end-on-rectangle" />
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        {{-- <x-dropdown-item label="Log out" type="submit" icon="arrow-right-end-on-rectangle" wire:navigate/> --}}
+                        <button type="submit"
+                            class="inline-flex items-center w-full px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 gap-x-3 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white group transition ease-in-out cursor-pointer">
+                            <x-heroicon-s-arrow-right-end-on-rectangle
+                                class="size-5 group-hover:text-gray-500 dark:group-hover:text-gray-300" />
+                            {{ __('Log Out') }}
+                        </button>
+                    </form>
+                </li>
             </x-dropdown>
 
             {{-- <div x-data="{ linkActive: false }" class="relative">

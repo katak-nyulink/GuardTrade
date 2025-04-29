@@ -1,0 +1,47 @@
+@props([
+    'label'=>'',
+    'icon' => null,
+    'header' => false,
+    'link'  => null,
+    'badge' => null,
+    'badgeEnd' => false,
+])
+
+@php
+    $isActive = request()->url() === $link;
+    $classes = [
+        'pl-10 pr-6 py-2 cursor-pointer  transition duration-200' => !$header,
+        'bg-black/30 text-gray-100' => $isActive && !$header,
+        'text-gray-400 hover:bg-black/30' => !$isActive && !$header,
+        'text-xs text-gray-600 my-2 ml-10 uppercase' => $header,
+        ];
+@endphp
+
+<!-- start::Submenu link -->
+<li {{ $attributes->class($classes) }}
+    {{-- @class([
+        'pl-10 pr-6 py-2 cursor-pointer  transition duration-200' => !$header,
+        'bg-black/30 text-gray-100' => $isActive && !$header,
+        'text-gray-400 hover:bg-black/30' => !$isActive && !$header,
+        'text-xs text-gray-600 mt-10 mb-2 px-6 uppercase' => $header,
+        ]) --}}
+    >
+    @if ($header)
+        <p>{{ $label }}</p>
+    @else
+        <a href="{{ $link ?? '#' }}" class="flex items-center">
+            @if ($icon)
+                <x-dynamic-component :component="$icon" class="size-3.5 mr-2 flex-none"/>
+            @else
+                <x-far-dot-circle class="size-3.5 mr-2 flex-none"/>
+            @endif
+            <span class="truncate flex-1">{{ $label }}</span>
+            @if($badge)
+                <div @class(['flex justify-end' => $badgeEnd])>
+                    <x-badge :label="$badge" blue outline {{ $attributes->twMergeFor('badge', 'rounded-full') }} />
+                </div>
+            @endif
+        </a>
+    @endif
+</li>
+<!-- end::Submenu link -->
