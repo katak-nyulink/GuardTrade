@@ -18,4 +18,14 @@ enum StockTransferStatusEnum: string
             self::CANCELLED => __('Cancelled'),
         };
     }
+
+    public function description(): string
+    {
+        return match ($this) {
+            self::PENDING => __('The stock transfer has been initiated but not yet sent or received.'),
+            self::SENT => __('The items have been dispatched from the source warehouse.'),
+            self::COMPLETED => __('The items have been received at the destination warehouse.'),
+            self::CANCELLED => __('The stock transfer has been cancelled.'),
+        };
+    }
 }

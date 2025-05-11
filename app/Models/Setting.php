@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Observers\SettingObserver;
 
 class Setting extends Model
 {
@@ -12,6 +13,10 @@ class Setting extends Model
     protected $primaryKey = 'key'; // Use 'key' as primary key
     public $incrementing = false; // Non-incrementing primary key
     protected $keyType = 'string'; // Key type is string
+
+    // protected $with = [
+    //     'groups', // Optional: Eager load related group settings
+    // ];
 
     protected $fillable = [
         'key',
@@ -24,6 +29,35 @@ class Setting extends Model
         // 'value' => 'json', // If storing complex data like arrays
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'key';
+    }
+
+    /**
+     * Get the setting group.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(Setting::class, 'group', 'key');
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Setting::class, 'group', 'key');
+    }
+
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        // static::observe(SettingObserver::class);
+    }
+
     /**
      * Get a setting value by key.
      *
@@ -33,8 +67,7 @@ class Setting extends Model
      */
     public static function getValue(string $key, $default = null)
     {
-        // Consider caching this for performance
-        $setting = self::find($key);
+        $setting = self::where('key', $key)->first();
         return $setting ? $setting->value : $default;
     }
 
@@ -48,9 +81,14 @@ class Setting extends Model
      */
     public static function setValue(string $key, $value, ?string $group = null): Setting
     {
+        $attributes = ['value' => $value];
+        if ($group !== null) {
+            $attributes['group'] = $group;
+        }
+
         return self::updateOrCreate(
             ['key' => $key],
-            ['value' => $value, 'group' => $group]
+            $attributes
         );
     }
 }

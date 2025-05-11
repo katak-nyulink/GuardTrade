@@ -46,5 +46,47 @@ return [
                 'placeholder' => 'Aksi',
             ],
         ],
-    ]
+    ],
+    'categories' => [
+        'title' => 'Katagori',
+        'description' => 'Daftar Katagori',
+        'inputs' => [
+            'name' => [
+                'label' => 'Nama',
+                'placeholder' => 'Nama',
+            ],
+            'slug' => [
+                'label' => 'Slug',
+                'placeholder' => 'Slug',
+            ],
+            'description' => [
+                'label' => 'Keterangan',
+                'placeholder' => 'Keterangan',
+            ],
+            'parent_id' => [
+                'label' => 'Parent',
+                'placeholder' => 'Parent',
+            ],
+            'parent' => [
+                'label' => 'Parent',
+                'placeholder' => 'Parent',
+            ],
+            'created_at' => [
+                'label' => 'Dibuat pada',
+                'placeholder' => 'Dibuat pada',
+            ],
+            'modified_at' => [
+                'label' => 'Diperbarui pada',
+                'placeholder' => 'Diperbarui pada',
+            ],
+            'deleted_at' => [
+                'label' => 'Dihapus pada',
+                'placeholder' => 'Dihapus pada',
+            ],
+            'actions' => [
+                'label' => 'Aksi',
+                'placeholder' => 'Aksi',
+            ],
+        ],
+    ],
 ];

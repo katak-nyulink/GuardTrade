@@ -13,6 +13,8 @@ class Category extends Model
     use HasFactory;
     use SoftDeletes;
 
+    // protected $with = ['parent'];
+
     protected $fillable = [
         'name',
         'slug', // Optional: for SEO friendly URLs

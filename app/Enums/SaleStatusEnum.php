@@ -18,4 +18,14 @@ enum SaleStatusEnum: string
             self::RETURNED => __('Returned'),
         };
     }
+
+    public function description(): string
+    {
+        return match ($this) {
+            self::PENDING => __('The sale has been initiated but not yet finalized or shipped.'),
+            self::COMPLETED => __('The sale has been completed and payment has been received.'),
+            self::SHIPPED => __('The sale has been shipped to the customer.'),
+            self::RETURNED => __('The sale has been fully returned by the customer.'),
+        };
+    }
 }

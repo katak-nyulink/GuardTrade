@@ -7,6 +7,15 @@
             <livewire:breadcrumbs/>
         </section>
         <section class="content">
+
+            <ul>
+                {{-- {{ \Cache::forget('settings.values') }} --}}
+                {{-- @forelse (app('setting')->getAllSettings() as $setting)
+                    <li>{{ $setting->key }} - {{ $setting->value }}</li>
+                @empty
+                    <li>kosong</li>
+                @endforelse --}}
+            </ul>
             {{ $slot }}
         </section>
     </main> 

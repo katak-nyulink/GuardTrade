@@ -6,7 +6,11 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\View;
 
+use App\Models\{Menu, Setting, Category};
+use App\Observers\{MenuObserver, SettingObserver, CategoryObserver};
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/menu.php',
             'menu'
         );
+
+        $this->app->singleton('menu', function () {
+            return new \App\Services\MenuService();
+        });
+        $this->app->singleton('setting', function () {
+            return new \App\Services\SettingService();
+        });
     }
 
     /**
@@ -27,7 +38,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::automaticallyEagerLoadRelationships();
+        Menu::observe(MenuObserver::class);
+        Setting::observe(SettingObserver::class);
+        Category::observe(CategoryObserver::class);
+
+        // Model::automaticallyEagerLoadRelationships();
+
+        Number::useLocale(config('app.locale'));
+
+        // Set default currency with fallback to USD
+        $currency = app('setting')->get('default_currency_code', 'USD');
+        Number::useCurrency($currency);
+
+        // Lang::stringable(function (Money $money) {
+        //     return $money->formatTo('en_GB');
+        // });
+
         // View::share( 'menuItems', [
         //     [
         //         'label' => 'Tables',

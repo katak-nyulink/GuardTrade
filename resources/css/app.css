@@ -87,6 +87,23 @@
         }
     }
 
+    .sidebar-nav {
+        .nav-link {
+            @apply flex items-center gap-2 w-full px-3 py-3 truncate cursor-pointer transition duration-200 leading-none data-list:rounded-t-lg last:data-list:rounded-b-lg;
+        }
+
+        &.flat {
+            .nav-link {
+                @apply border-l-2 border-l-transparent;
+            }
+        }
+    }
+
+
+    .arrow-pseudo {
+        @apply before:absolute before:size-2.5 before:bg-white dark:before:bg-gray-800 before:transform before:rotate-45 before:-z-10 before:ring-1 before:ring-slate-200 dark:before:ring-slate-700;
+    }
+
     .sidebar .sidebar-header {
         @apply flex-none flex items-center px-6 py-3 h-16 text-white;
     }

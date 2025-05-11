@@ -1,6 +1,6 @@
 document.addEventListener('alpine:init', () => {
     Alpine.data('sidebar', () => ({
-        isCollapsed: true,
+        isCollapsed: false,
 
         init() {
             this.checkViewport();
@@ -127,14 +127,14 @@ document.addEventListener('alpine:init', () => {
             [':aria-expanded']() {
                 return this.open;
             },
-            [':class']() {
-                return {
-                    'active': this.open,
-                    // '': !this.open,
-                    'justify-center': this.isCollapsed
-                    // 'border-primary': initialOpen
-                }
-            },
+            // [':class']() {
+            //     return {
+            //         'active': this.open,
+            //         // '': !this.open,
+            //         // 'justify-center': this.isCollapsed
+            //         // 'border-primary': initialOpen
+            //     }
+            // },
             ['@click']() {
                 this.open = !this.open
             }
@@ -148,11 +148,44 @@ document.addEventListener('alpine:init', () => {
             ['@mouseover']() {
                 return this.showAsPopup && (this.open = true)
             },
-            ['@mouseleave']() {
-                return this.showAsPopup && (this.open = false)
-            },
+            // ['@mouseleave']() {
+            //     return this.showAsPopup && (this.open = false)
+            // },
             [':data-placement']() {
-                return 'right-start'
+                // Extract placement from x-anchor directive
+                const anchorDirective = this.$el.getAttribute('x-anchor');
+                const placement = anchorDirective?.split('.')[1] || 'right-start';
+                return placement;
+            },
+            ['x-effect']() {
+                const existingArrow = this.$el.classList.contains('arrow-pseudo')
+                if (existingArrow) existingArrow.remove();
+
+                this.$el.classList.add('arrow-pseudo');
+                const placement = this.$el.dataset.placement;
+
+                // Apply pseudo-element styles through a style tag
+                const styleId = 'arrow-pseudo-styles';
+                let styleTag = document.getElementById(styleId);
+
+                if (!styleTag) {
+                    styleTag = document.createElement('style');
+                    styleTag.id = styleId;
+                    document.head.appendChild(styleTag);
+                }
+
+                styleTag.textContent = `
+                    .arrow-pseudo::before {
+                        ${placement === 'right-start' ? 'left: -5px; top: 15px;' : ''}
+                        ${placement === 'right-end' ? 'left: -5px; bottom: 15px;' : ''}
+                        ${placement === 'left-start' ? 'right: -5px; top: 15px;' : ''}
+                        ${placement === 'left-end' ? 'right: -5px; bottom: 15px;' : ''}
+                        ${placement === 'top-start' ? 'bottom: -5px; left: 15px;' : ''}
+                        ${placement === 'top-end' ? 'bottom: -5px; right: 15px;' : ''}
+                        ${placement === 'bottom-start' ? 'top: -5px; left: 15px;' : ''}
+                        ${placement === 'bottom-end' ? 'top: -5px; right: 15px;' : ''}
+                    }
+                `;
             }
         }
     }));

@@ -21,7 +21,10 @@ return new class extends Migration
             $table->enum('type', ['link', 'dropdown', 'section'])->default('link');
             $table->string('permission_name')->nullable(); // cocokkan dengan permission Spatie
             $table->integer('order')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('menus')->onDelete('cascade');
         });
     }
 

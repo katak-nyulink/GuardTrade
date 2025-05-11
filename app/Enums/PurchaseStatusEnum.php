@@ -20,4 +20,14 @@ enum PurchaseStatusEnum: string
             self::RETURNED => __('Returned'),
         };
     }
+    public function description(): string
+    {
+        return match ($this) {
+            self::PENDING => __('The purchase order has been placed but not yet received.'),
+            self::ORDERED => __('The purchase order has been confirmed with the supplier.'),
+            self::RECEIVED => __('All items in the purchase order have been received.'),
+            self::PARTIAL_RECEIVED => __('Some items in the purchase order have been received.'),
+            self::RETURNED => __('The purchase order has been fully returned.'),
+        };
+    }
 }

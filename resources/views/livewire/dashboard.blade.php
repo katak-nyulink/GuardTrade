@@ -2,6 +2,11 @@
 
 use App\Models\User;
 use App\Models\Menu;
+use App\Models\Sale;
+use App\Models\Purchase;
+use App\Models\Product;
+use App\Models\Customer;
+use Carbon\Carbon;
 use Livewire\Volt\Component;
 use Illuminate\View\View;
 use Livewire\Attributes\{Layout, Title};
@@ -11,6 +16,23 @@ new #[Title('Dashboard')] class
     // #[Layout('components.layouts.app')]
     extends Component {
     use WithTcTable;
+ 
+    public $salesToday;
+    public $salesYesterday;
+    public $salesGrowth;
+    public $purchasesToday; 
+    public $purchasesYesterday;
+    public $purchasesGrowth;
+    public $totalProducts;
+    public $productsLastWeek;
+    public $productsGrowth;
+    public $totalCustomers;
+    public $customersLastWeek; 
+    public $customersGrowth;
+    public $totalRevenue;
+    public $revenueLastMonth;
+    public $revenueGrowth;
+    public $lowStockProducts;
 
     // public $listeners = ['refresh' => '$refresh'];
     public bool $is_active = false;
@@ -45,10 +67,66 @@ new #[Title('Dashboard')] class
                     $query->whereNotNull('email_verified_at');
                 })
                 ->tap(fn($query) => $this->tcApplySorting($query))
-                ->simplePaginate($this->tcPerPage),
+                ->simplePaginate(5),
         ];
     }
 
+    public function mount()
+    {
+        // app('menu')->getMenuStructure();
+        // app('menu')->clearCache();
+        // dd(app('menu')->getMenuStructure()->toArray());
+        $today = Carbon::today();
+        $yesterday = Carbon::yesterday();
+        $lastWeek = Carbon::today()->subWeek();
+        $lastMonth = Carbon::today()->subMonth();
+
+        // Sales calculations
+        $salesData = [
+            'today' => Sale::whereDate('date', $today)->sum('total_amount'),
+            'yesterday' => Sale::whereDate('date', $yesterday)->sum('total_amount'),
+            'monthly' => Sale::whereMonth('date', $today->month)->sum('total_amount'),
+            'lastMonth' => Sale::whereMonth('date', $lastMonth->month)->sum('total_amount')
+        ];
+
+        $this->salesToday = Number::currency($salesData['today']);
+        $this->salesYesterday = $salesData['yesterday'];
+        $this->salesGrowth = $this->calculateGrowth($salesData['today'], $salesData['yesterday']);
+
+        // Customers calculations 
+        $customersData = Customer::selectRaw('
+            COUNT(*) as total,
+            COUNT(CASE WHEN created_at < ? THEN 1 END) as last_week
+        ', [$lastWeek])->first();
+
+        $this->totalCustomers = $customersData->total;
+        $this->customersLastWeek = $customersData->last_week;
+        $this->customersGrowth = $this->calculateGrowth($this->totalCustomers, $this->customersLastWeek);
+
+        // Products calculations
+        $productsData = Product::selectRaw('
+            COUNT(*) as total,
+            COUNT(CASE WHEN created_at < ? THEN 1 END) as last_week
+        ', [$lastWeek])->first();
+
+        $this->totalProducts = $productsData->total;
+        $this->productsLastWeek = $productsData->last_week;
+        $this->productsGrowth = $this->calculateGrowth($this->totalProducts, $this->productsLastWeek);
+
+        // Revenue calculations
+        $this->totalRevenue = Number::currency($salesData['monthly']);
+        $this->revenueLastMonth = $salesData['lastMonth'];
+        $this->revenueGrowth = $this->calculateGrowth($salesData['monthly'], $salesData['lastMonth']);
+
+        $this->purchasesToday = Number::currency(Purchase::whereDate('date', $today)->sum('total_amount'));
+        $this->lowStockProducts = 0; // Placeholder
+    }
+
+    private function calculateGrowth($current, $previous)
+    {
+        if ($previous == 0) return 0;
+        return round((($current - $previous) / $previous) * 100, 1);
+    }
     // public function mount()
     // {
         // $this->breadcrumbs()
@@ -65,14 +143,49 @@ new #[Title('Dashboard')] class
 
 <div class="flex flex-col gap-6">
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        <x-stat icon="users" title="Total users" number="10,500" tooltip="User decrease" decrease="5%"
-            class="shadow-lg" rounded-lg class="dark:bg-gray-900/80" />
-        <x-stat icon="shopping-cart" title="Total sales" number="12,345" tooltip="Sales increase" increase="10%" amber
-            rounded-lg class="dark:bg-gray-900/80" />
-        <x-stat icon="currency-dollar" title="Total revenue" number="$123,456" tooltip="Revenue increase" increase="15%"
-            cyan rounded-lg class="dark:bg-gray-900/80" />
-        <x-stat icon="archive-box-arrow-down" title="Total products" number="890" tooltip="Products increase"
-            increase="8%" indigo rounded-lg class="dark:bg-gray-900/80" />
+        <x-stat 
+            icon="users" 
+            title="Total Customer" 
+            :number="$totalCustomers" 
+            :tooltip="$customersGrowth >= 0 ? 'Customer increase' : 'Customer decrease'"
+            :increase="$customersGrowth > 0 ?? Number::percentage($customersGrowth )"
+            :decrease="$customersGrowth < 0 ?? Number::percentage(abs($customersGrowth) )"
+            class="shadow-lg" 
+            rounded-lg 
+        />
+        <x-stat 
+            icon="shopping-cart" 
+            title="Total sales" 
+            :number="$salesToday" 
+            :tooltip="$salesGrowth >= 0 ? 'Sales increase' : 'Sales decrease'"
+            :increase="$salesGrowth > 0 ?? Number::percentage($salesGrowth )"
+            :decrease="$salesGrowth < 0 ?? Number::percentage(abs($salesGrowth))"
+            amber
+            rounded-lg 
+            class="shadow-lg" 
+        />
+        <x-stat 
+            icon="currency-dollar" 
+            title="Total revenue" 
+            :number="$totalRevenue" 
+            :tooltip="$revenueGrowth >= 0 ? 'Revenue increase' : 'Revenue decrease'"
+            :increase="$revenueGrowth > 0 ?? Number::percentage($revenueGrowth)"
+            :decrease="$revenueGrowth < 0 ?? Number::percentage(abs($revenueGrowth))"
+            cyan 
+            rounded-lg 
+            class="shadow-lg" 
+        />
+        <x-stat 
+            icon="archive-box-arrow-down" 
+            title="Total products" 
+            :number="$totalProducts"
+            :tooltip="$productsGrowth >= 0 ? ($productsGrowth > 0 ? 'Products increase' : 'above average'):'Products decrease'" 
+            :increase="$productsGrowth > 0 ?? Number::percentage($productsGrowth)"
+            :decrease="$productsGrowth < 0 ?? Number::percentage(abs($productsGrowth))"
+            indigo 
+            rounded-lg 
+            class="shadow-lg" 
+        />
     </div>
         {{-- <x-separator/> --}}
         <x-table searchable class="bg-white dark:bg-slate-800 overflow-hidden">

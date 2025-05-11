@@ -4,17 +4,31 @@ namespace App\Enums;
 
 enum UserAdmin: int
 {
-    case Users = 1;
-    case Roles = 2;
-    case Permissions = 3;
-    case Settings = 4;
+    case USER = 1;
+    case ADMIN = 2;
+    case QUEST = 3;
     public function label(): string
     {
         return match ($this) {
-            self::Users => 'Pengguna',
-            self::Roles => 'Peran',
-            self::Permissions => 'Izin',
-            self::Settings => 'Pengaturan',
+            self::USER => __('User'),
+            self::ADMIN => __('Admin'),
+            self::QUEST => __('Quest'),
+        };
+    }
+    public function description(): string
+    {
+        return match ($this) {
+            self::USER => __('A regular user with standard permissions.'),
+            self::ADMIN => __('An administrator with elevated permissions.'),
+            self::QUEST => __('A guest user with limited access.'),
+        };
+    }
+    public function icon(): string
+    {
+        return match ($this) {
+            self::USER => 'person',
+            self::ADMIN => 'shield-lock',
+            self::QUEST => 'person-badge',
         };
     }
 }

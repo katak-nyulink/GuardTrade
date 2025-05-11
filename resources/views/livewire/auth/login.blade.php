@@ -38,8 +38,9 @@ class extends Component {
 
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
+                // 'password'=> __('auth.password'),
             ]);
-        }
+        } 
 
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();

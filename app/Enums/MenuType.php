@@ -16,6 +16,14 @@ enum MenuType: string
             self::HEADER => 'Header',
         };
     }
+    public function description(): string
+    {
+        return match ($this) {
+            self::LINK => __('A single link to a page or resource.'),
+            self::DROPDOWN => __('A menu that expands to show more options.'),
+            self::HEADER => __('A header for grouping related links.'),
+        };
+    }
     public function icon(): string
     {
         return match ($this) {

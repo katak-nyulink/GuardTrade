@@ -4,6 +4,7 @@ use App\Enums\StockTransferStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -32,10 +33,10 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-
-            // Prevent transfer to the same warehouse
-            $table->check('from_warehouse_id <> to_warehouse_id');
         });
+
+        // Add check constraint using raw SQL
+        DB::statement('ALTER TABLE stock_transfers ADD CONSTRAINT check_different_warehouses CHECK (from_warehouse_id <> to_warehouse_id)');
     }
 
     /**
@@ -43,6 +44,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Remove the constraint before dropping the table
+        DB::statement('ALTER TABLE stock_transfers DROP CONSTRAINT IF EXISTS check_different_warehouses');
+
         Schema::dropIfExists('stock_transfers');
     }
 };

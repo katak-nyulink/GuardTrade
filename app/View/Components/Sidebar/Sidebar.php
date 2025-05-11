@@ -61,8 +61,11 @@ class Sidebar extends Component
      */
     public function render(): View|Closure|string
     {
+        // app('menu')->clearCache();
+
         return view('components.sidebar.sidebar', [
-            'groupedMenu' => $this->getSidebarGroupedMenu(),
+            'MenuStructure' => app('menu')->getMenuStructure(),
+            // 'groupedMenu' => $this->getSidebarGroupedMenu(),
             // 'groupMenu' => $this->groupMenu,
             // 'menuItems' => $this->menuItems,
         ]);

@@ -43,5 +43,43 @@ return [
             ],
         ],
 
-    ]
+    ],
+    'categories' => [
+        'title' => 'Categories',
+        'description' => 'List of categories',
+        'inputs' => [
+            'name' => [
+                'label' => 'Name',
+                'placeholder' => 'Name',
+            ],
+            'slug' => [
+                'label' => 'Slug',
+                'placeholder' => 'Slug',
+            ],
+            'description' => [
+                'label' => 'Description',
+                'placeholder' => 'Description',
+            ],
+            'parent_id' => [
+                'label' => 'Parent',
+                'placeholder' => 'Parent',
+            ],
+            'parent' => [
+                'label' => 'Parent',
+                'placeholder' => 'Parent',
+            ],
+            'created_at' => [
+                'label' => 'Created at',
+                'placeholder' => 'Created at',
+            ],
+            'modified_at' => [
+                'label' => 'Updated at',
+                'placeholder' => 'Updated at',
+            ],
+            'deleted_at' => [
+                'label' => 'Deleted at',
+                'placeholder' => 'Deleted at',
+            ],
+        ],
+    ],
 ];

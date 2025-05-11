@@ -16,4 +16,12 @@ enum ProductTypeEnum: string
             self::COMBO => __('Combo'),
         };
     }
+    public function description(): string
+    {
+        return match ($this) {
+            self::STANDARD => __('A standard product that is sold individually.'),
+            self::SERVICE => __('A service that is provided to customers.'),
+            self::COMBO => __('A combination of multiple products sold as a bundle.'),
+        };
+    }
 }

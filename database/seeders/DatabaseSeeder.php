@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            UserSeeder::class,
+            // UserSeeder::class,
             WarehouseSeeder::class, // Needs to run before Products and Settings
             UnitSeeder::class,      // Needs to run before Products
             TaxRateSeeder::class,   // Needs to run before Products

@@ -18,4 +18,13 @@ enum PaymentStatusEnum: string
             self::DUE => __('Due'),
         };
     }
+    public function description(): string
+    {
+        return match ($this) {
+            self::PENDING => __('The payment is pending and has not yet been made.'),
+            self::PAID => __('The payment has been completed.'),
+            self::PARTIAL => __('A partial payment has been made.'),
+            self::DUE => __('The payment is due and has not been made by the due date.'),
+        };
+    }
 }
